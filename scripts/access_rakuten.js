@@ -1,12 +1,20 @@
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
 
-const url = process.env.MONITOR_URL;
-if (!url) {
-  console.error('URL 環境変数が設定されていません。');
+const urls = Object.entries(process.env)
+  .filter(([key]) => key.startsWith('MONITOR_URL_'))
+  .map(([key, value]) => {
+    const index = key.split('_').pop();
+    return {
+      url: value,
+      label: process.env[`URL_LABEL_${index}`] || `未指定${index}`
+    };
+  });
+
+if (urls.length === 0) {
+  console.error('MONITOR_URL_* 環境変数が設定されていません。');
   process.exit(1);
 }
-const label = process.env.URL_LABEL || '未指定';
 
 const webhookUrl = process.env.DISCORD_WEBHOOK;
 if (!webhookUrl) {
@@ -14,7 +22,7 @@ if (!webhookUrl) {
   process.exit(1);
 }
 
-async function checkAndNotify() {
+async function checkAndNotify(url, label) {
   const browser = await puppeteer.launch({
     headless: 'new',
     args: ['--no-sandbox']
@@ -37,8 +45,6 @@ async function checkAndNotify() {
   await browser.close();
 }
 
-// 最初に1回実行
-checkAndNotify();
-
-// 5分ごとに実行（300000ミリ秒）
-setInterval(checkAndNotify, 300000);
+for (const { url, label } of urls) {
+  checkAndNotify(url, label);
+}

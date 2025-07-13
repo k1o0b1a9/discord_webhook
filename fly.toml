@@ -1,0 +1,29 @@
+# fly.toml app configuration file generated for discord-webhook-lively-glade-1537 on 2025-07-13T22:23:01+09:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'discord-webhook-lively-glade-1537'
+primary_region = 'nrt'
+
+[build]
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+
+[[cron]]
+  schedule = "*/5 * * * *"
+  command = "node scripts/access_rakuten.js"
+
+[env]
+    MONITOR_URL_1 = "https://books.rakuten.co.jp/rb/18210486/?l-id=search-c-item-01"
+    MONITOR_URL_2 = "https://books.rakuten.co.jp/rb/18210481/?bkts=1"
+    MONITOR_URL_3 = "https://books.rakuten.co.jp/rb/18297054/?bkts=1&l-id=search-c-item-text-02"
+    MONITOR_URL_4 = "https://books.rakuten.co.jp/rb/18297055/?bkts=1&l-id=search-c-item-text-01"
+    URL_LABEL_1 = "テスト用ページ"
+    URL_LABEL_2 = "switch2単体"
+    URL_LABEL_3 = "switch2セット バナンザ"
+    URL_LABEL_4 = "switch2セット マリカー+バナンザ"
+    DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1393877281960890528/ufoPpN4_y_8E57IuCWFw5C3HLqPLV4gGOghvhDviFNyfkBEphmCtjU6XDBAWj7Ma3Tc0"
