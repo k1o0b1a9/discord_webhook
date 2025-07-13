@@ -47,4 +47,5 @@ async function checkAndNotify(url, label) {
 
 for (const { url, label } of urls) {
   checkAndNotify(url, label);
+  await new Promise(res => setTimeout(res, 5000));
 }
