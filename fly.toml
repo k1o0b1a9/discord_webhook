@@ -13,6 +13,9 @@ primary_region = 'nrt'
   cpu_kind = 'shared'
   cpus = 1
 
+[processes]
+cron = ""
+
 [[cron]]
   schedule = "*/5 * * * *"
   command = "node scripts/access_rakuten.js"
