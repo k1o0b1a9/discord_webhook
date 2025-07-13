@@ -1,0 +1,22 @@
+# Node.js
+node_modules/
+package-lock.json
+
+# Fly.io & Docker
+fly.toml
+.dockerignore
+Dockerfile
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*
+
+# OS generated files
+.DS_Store
+Thumbs.db

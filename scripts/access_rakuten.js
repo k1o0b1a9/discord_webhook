@@ -1,11 +1,13 @@
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
 
-const url = process.env.MONITOR_URL;
+const url = process.env.URL;
 if (!url) {
-  console.error('MONITOR_URL 環境変数が設定されていません。');
+  console.error('URL 環境変数が設定されていません。');
   process.exit(1);
 }
+const label = process.env.URL_LABEL || '未指定';
+
 const webhookUrl = process.env.DISCORD_WEBHOOK;
 if (!webhookUrl) {
   console.error('DISCORD_WEBHOOK 環境変数が設定されていません。');
@@ -14,8 +16,8 @@ if (!webhookUrl) {
 
 async function checkAndNotify() {
   const browser = await puppeteer.launch({
-  headless: 'new',
-  args: ['--no-sandbox']
+    headless: 'new',
+    args: ['--no-sandbox']
   });
   const page = await browser.newPage();
 
@@ -28,11 +30,15 @@ async function checkAndNotify() {
     await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content: `ボタンが表示されました (${timestamp})` })
+      body: JSON.stringify({ content: `[${label}] ボタンが表示されました (${timestamp})` })
     });
   }
 
   await browser.close();
 }
 
+// 最初に1回実行
 checkAndNotify();
+
+// 5分ごとに実行（300000ミリ秒）
+setInterval(checkAndNotify, 300000);
