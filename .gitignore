@@ -2,10 +2,6 @@
 node_modules/
 package-lock.json
 
-# Fly.io & Docker
-.dockerignore
-Dockerfile
-
 # VSCode
 .vscode/
 
