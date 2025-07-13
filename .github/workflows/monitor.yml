@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        url_name: [MONITOR_URL_1, MONITOR_URL_2, MONITOR_URL_3, MONITOR_URL_4]
+        url_name: [MONITOR_URL_1, MONITOR_URL_2, MONITOR_URL_3, MONITOR_URL_4, TEST_MONITOR_URL]
 
     steps:
       - uses: actions/checkout@v3
@@ -22,6 +22,9 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+      
+      - name: Install Chrome
+        run: npx puppeteer browsers install chrome
 
       - name: Run monitoring script
         env:
