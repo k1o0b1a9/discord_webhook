@@ -10,7 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        url_name: [MONITOR_URL_1, MONITOR_URL_2, MONITOR_URL_3, MONITOR_URL_4, TEST_MONITOR_URL]
+        url_name:
+          - "https://books.rakuten.co.jp/rb/18210486/?l-id=search-c-item-01"
+          - "https://books.rakuten.co.jp/rb/18210481/?bkts=1"
+          - "https://books.rakuten.co.jp/rb/18210481/?bkts=1"
+          - "https://books.rakuten.co.jp/rb/18297054/?bkts=1&l-id=search-c-item-text-02"
+          - "https://books.rakuten.co.jp/rb/18297055/?bkts=1&l-id=search-c-item-text-01"
 
     steps:
       - uses: actions/checkout@v3
@@ -28,6 +33,6 @@ jobs:
 
       - name: Run monitoring script
         env:
-          MONITOR_URL: ${{ secrets[matrix.url_name] }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          MONITOR_URL: ${{ matrix.url_name }}
+          DISCORD_WEBHOOK: "https://discord.com/api/webhooks/1393877281960890528/ufoPpN4_y_8E57IuCWFw5C3HLqPLV4gGOghvhDviFNyfkBEphmCtjU6XDBAWj7Ma3Tc0"
         run: node scripts/access_rakuten.js
