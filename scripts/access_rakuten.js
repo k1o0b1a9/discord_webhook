@@ -1,15 +1,16 @@
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
 
-const inputUrl = process.argv[2];
-if (!inputUrl) {
-  console.error('監視するURLを指定してください。');
+const url = process.env.MONITOR_URL;
+if (!url) {
+  console.error('MONITOR_URL 環境変数が設定されていません。');
   process.exit(1);
 }
-
-
-const url = inputUrl;
-const webhookUrl = 'https://discord.com/api/webhooks/1393877281960890528/ufoPpN4_y_8E57IuCWFw5C3HLqPLV4gGOghvhDviFNyfkBEphmCtjU6XDBAWj7Ma3Tc0';
+const webhookUrl = process.env.DISCORD_WEBHOOK;
+if (!webhookUrl) {
+  console.error('DISCORD_WEBHOOK 環境変数が設定されていません。');
+  process.exit(1);
+}
 
 async function checkAndNotify() {
   const browser = await puppeteer.launch({ headless: 'new' });
