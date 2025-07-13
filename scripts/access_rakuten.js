@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
 
-const url = process.env.URL;
+const url = process.env.MONITOR_URL;
 if (!url) {
   console.error('URL 環境変数が設定されていません。');
   process.exit(1);
