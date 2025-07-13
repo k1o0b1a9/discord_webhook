@@ -8,6 +8,10 @@ on:
 jobs:
   monitor:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        url_name: [MONITOR_URL_1, MONITOR_URL_2, MONITOR_URL_3, MONITOR_URL_4]
+
     steps:
       - uses: actions/checkout@v3
 
@@ -21,5 +25,6 @@ jobs:
 
       - name: Run monitoring script
         env:
+          MONITOR_URL: ${{ secrets[matrix.url_name] }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: node scripts/access_rakuten.js "${{ secrets.MONITOR_URL }}"
+        run: node scripts/access_rakuten.js

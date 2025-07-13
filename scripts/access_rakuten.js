@@ -32,5 +32,4 @@ async function checkAndNotify() {
   await browser.close();
 }
 
-setInterval(checkAndNotify, 5 * 60 * 1000); // 5分ごとに実行
-checkAndNotify(); // 起動時にも一度実行∂
+checkAndNotify();
