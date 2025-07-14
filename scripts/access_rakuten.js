@@ -1,18 +1,11 @@
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
 
-const urls = Object.entries(process.env)
-  .filter(([key]) => key.startsWith('MONITOR_URL_'))
-  .map(([key, value]) => {
-    const index = key.split('_').pop();
-    return {
-      url: value,
-      label: process.env[`URL_LABEL_${index}`] || `未指定${index}`
-    };
-  });
+const url = process.env.MONITOR_URL;
+const label = process.env.URL_LABEL || '未指定';
 
-if (urls.length === 0) {
-  console.error('MONITOR_URL_* 環境変数が設定されていません。');
+if (!url) {
+  console.error('MONITOR_URL 環境変数が設定されていません。');
   process.exit(1);
 }
 
@@ -45,7 +38,4 @@ async function checkAndNotify(url, label) {
   await browser.close();
 }
 
-for (const { url, label } of urls) {
-  await checkAndNotify(url, label);
-  await new Promise(res => setTimeout(res, 5000));
-}
+await checkAndNotify(url, label);
