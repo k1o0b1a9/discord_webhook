@@ -14,7 +14,7 @@ primary_region = 'nrt'
   cpus = 1
 
 [processes]
-cron = ""
+cron = "node scripts/access_rakuten.js"
 
 [[cron]]
   schedule = "*/5 * * * *"
