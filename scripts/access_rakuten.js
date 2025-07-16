@@ -1,28 +1,34 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 import fetch from 'node-fetch';
 import puppeteer from 'puppeteer';
 
-const url = process.env.MONITOR_URL;
-const label = process.env.URL_LABEL || '未指定';
+// .envファイルに MONITOR_URL と MONITOR_LABEL を定義してください
 
-if (!url) {
-  console.error('MONITOR_URL 環境変数が設定されていません。');
+const args = process.argv.slice(2);
+const webhookUrl = args[0];
+const monitorUrl = process.env.MONITOR_URL;
+const label = process.env.MONITOR_LABEL || '未指定';
+
+if (!monitorUrl) {
+  console.error('監視対象のURLが .env に設定されていません。');
   process.exit(1);
 }
 
-const webhookUrl = process.env.DISCORD_WEBHOOK;
 if (!webhookUrl) {
-  console.error('DISCORD_WEBHOOK 環境変数が設定されていません。');
+  console.error('DiscordのWebhook URLが指定されていません。');
   process.exit(1);
 }
 
-async function checkAndNotify(url, label) {
+async function checkAndNotify(monitorUrl, label) {
   const browser = await puppeteer.launch({
     headless: 'new',
     args: ['--no-sandbox']
   });
   const page = await browser.newPage();
 
-  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.goto(monitorUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
 
   const exists = await page.$('form[action$="/rms/mall/book/bs/Cart"]');
 
@@ -38,4 +44,4 @@ async function checkAndNotify(url, label) {
   await browser.close();
 }
 
-await checkAndNotify(url, label);
+await checkAndNotify(monitorUrl, label);
