@@ -44,4 +44,15 @@ async function checkAndNotify(monitorUrl, label) {
   await browser.close();
 }
 
-await checkAndNotify(monitorUrl, label);
+const intervalMinutes = 5;
+
+(async () => {
+  while (true) {
+    try {
+      await checkAndNotify(monitorUrl, label);
+    } catch (error) {
+      console.error('エラーが発生しました:', error);
+    }
+    await new Promise(resolve => setTimeout(resolve, intervalMinutes * 60 * 1000));
+  }
+})();
