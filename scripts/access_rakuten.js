@@ -6,8 +6,7 @@ import puppeteer from 'puppeteer';
 
 // .envファイルに MONITOR_URL と MONITOR_LABEL を定義してください
 
-const args = process.argv.slice(2);
-const webhookUrl = args[0];
+const webhookUrl = process.env.WEBHOOK_URL;
 const monitorUrl = process.env.MONITOR_URL;
 const label = process.env.MONITOR_LABEL || '未指定';
 
@@ -17,7 +16,7 @@ if (!monitorUrl) {
 }
 
 if (!webhookUrl) {
-  console.error('DiscordのWebhook URLが指定されていません。');
+  console.error('DiscordのWebhook URLが .env に設定されていません。');
   process.exit(1);
 }
 
