@@ -1,51 +1,59 @@
+# Discord Webhook Utilities
 
+This repository contains Node.js scripts that send notifications to Discord using webhooks.
 
-# Discord Webhook Monitor
+## Scripts
+- `scripts/access_rakuten.js`: Monitors a Rakuten page and notifies when a specific button appears.
+- `scripts/weather_notifier.js`: Sends the current weather for a specified location.
 
-Rakutenサイトの特定ページを監視し、条件を満たすとDiscord Webhookに通知するスクリプトです。
+## Setup
 
-## 使用技術
-
-- Node.js
-- Puppeteer
-- dotenv
-
-## セットアップ手順
-
-1. 依存パッケージのインストール：
+1. Install dependencies:
 
 ```bash
 npm install
 ```
 
-2. `.env` ファイルの作成：
+2. Create a `.env` file:
 
 ```env
-MONITOR_URL=https://対象のURL
 WEBHOOK_URL=https://discord.com/api/webhooks/xxxxxxxxx/xxxxxxxxx
+MONITOR_URL=https://example.com
+MONITOR_LABEL=Example
+WEATHER_LAT=35.68
+WEATHER_LON=139.76
+WEATHER_CITY=Tokyo
 ```
 
-3. Chromeのインストール（Puppeteer用）：
+3. Install Chrome for Puppeteer:
 
 ```bash
 npx puppeteer browsers install chrome
 ```
 
-## 実行方法
+## Usage
 
-### 通常実行
+### Monitor Rakuten page
 
 ```bash
 node scripts/access_rakuten.js
 ```
 
-### バックグラウンドで実行（ログは monitor.log に出力）
+Run in background:
 
 ```bash
 nohup node scripts/access_rakuten.js > monitor.log 2>&1 &
 ```
 
-## トラブルシューティング
+### Send weather notification
 
-- Raspberry PiなどARM環境では、Puppeteer用Chromeのバイナリが対応していない可能性があります。
-- `chrome` 実行時のエラーが出る場合は、対応するChromeバイナリを手動でインストールするか、x86環境での実行を検討してください。
+```bash
+node scripts/weather_notifier.js
+```
+
+You can schedule this with cron for daily updates.
+
+## Troubleshooting
+
+- On ARM environments like Raspberry Pi, the Puppeteer Chrome binary may not be available.
+- If `chrome` fails to start, install a compatible Chrome manually or consider using an x86 environment.
