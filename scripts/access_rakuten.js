@@ -22,10 +22,9 @@ if (!webhookUrl) {
 
 async function checkAndNotify(monitorUrl, label) {
   const browser = await puppeteer.launch({
-    executablePath: '/usr/bin/chromium-browser',
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
+  headless: 'new',
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
   const page = await browser.newPage();
 
   await page.goto(monitorUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
